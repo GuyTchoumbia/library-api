@@ -3,14 +3,12 @@ package com.library.api.entities;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.common.BaseEntity;
+import com.library.api.entities.common.BaseEntity;
 
 @Entity
 @Table
@@ -19,8 +17,7 @@ public class Tag extends BaseEntity {
 	@NotNull
 	private String libelle;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable
+	@ManyToMany(mappedBy="tags")
 	@JsonIgnoreProperties("tags")
 	private List<Document> documents;
 	

@@ -8,8 +8,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.library.api.entities.common.Adress;
+import com.library.api.entities.common.BaseEntity;
 
 
 @Entity
@@ -23,7 +24,7 @@ public class Library extends BaseEntity {
 	private Adress adress;
 			
 	@OneToMany(mappedBy="library")
-	@JsonIgnoreProperties("library")
+	@JsonBackReference
 	private List<Cote> cotes;
 
 	public Library() {}

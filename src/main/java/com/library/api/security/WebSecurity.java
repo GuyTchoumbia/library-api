@@ -40,12 +40,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
         	.cors().and()
-        	.csrf().disable().authorizeRequests()        
-                .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager()));
+        	.csrf().disable().authorizeRequests()  
+        			.antMatchers("/").permitAll();
+//                .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+//                .addFilter(new JwtAuthorizationFilter(authenticationManager()));
     }
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

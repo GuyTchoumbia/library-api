@@ -8,8 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.common.BaseEntity;
-
+import com.library.api.entities.common.BaseEntity;
 
 @Entity
 @Table

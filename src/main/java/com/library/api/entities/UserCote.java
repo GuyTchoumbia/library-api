@@ -9,7 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.library.api.entities.user.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="user_cote")
@@ -18,10 +18,12 @@ public class UserCote {
 	
 	@Id
 	@ManyToOne
+	@JsonManagedReference
 	private User user;
 	
 	@Id
 	@ManyToOne
+	@JsonManagedReference
 	private Cote cote;
 	
 	@Column(nullable=true)	

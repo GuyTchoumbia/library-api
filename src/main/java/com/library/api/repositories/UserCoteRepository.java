@@ -2,9 +2,14 @@ package com.library.api.repositories;
 
 import org.springframework.stereotype.Repository;
 
-import com.library.api.common.AbstractRepository;
+import com.library.api.entities.UserCote;
+import com.library.api.repositories.common.AbstractRepository;
 
 @Repository
-public interface UserCoteRepository<UserCote> extends AbstractRepository<UserCote> {
+public class UserCoteRepository extends AbstractRepository<UserCote> {
+
+	public UserCoteRepository() {
+		super(UserCote.class);
+	}
 
 }

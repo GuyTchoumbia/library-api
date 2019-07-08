@@ -7,8 +7,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.library.api.entities.common.BaseEntity;
 
 @Entity
 @Table
@@ -18,7 +18,7 @@ public class Editeur extends BaseEntity {
 	private String libelle;
 	
 	@OneToMany(mappedBy="editeur")
-	@JsonIgnoreProperties("editeur")
+	@JsonBackReference
 	private List<Document> documents;	
 
 	public Editeur() {}		

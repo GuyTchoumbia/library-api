@@ -1,4 +1,4 @@
-package com.library.api.entities;
+package com.library.api.entities.common;
 
 import javax.persistence.Embeddable;
 

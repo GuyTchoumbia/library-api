@@ -8,8 +8,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.library.api.entities.common.BaseEntity;
 
 
 @Entity
@@ -23,10 +25,11 @@ public class Cote extends BaseEntity {
 	private Document document;
 	
 	@ManyToOne
-	@JsonIgnoreProperties("cotes")
+	@JsonManagedReference
 	private Library library;
 	
-	@OneToMany(mappedBy = "cote", cascade=CascadeType.ALL)	
+	@OneToMany(mappedBy = "cote", cascade=CascadeType.ALL)
+	@JsonBackReference
 	private List<UserCote> userCote;	
 	
 	public Cote() {		

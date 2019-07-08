@@ -3,7 +3,7 @@ package com.library.api.entities.user;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
-import com.library.api.entities.Adress;
+import com.library.api.entities.common.Adress;
 
 @Embeddable
 public class Coordinates {

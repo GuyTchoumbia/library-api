@@ -2,9 +2,14 @@ package com.library.api.repositories;
 
 import org.springframework.stereotype.Repository;
 
-import com.library.api.common.AbstractRepository;
+import com.library.api.entities.Library;
+import com.library.api.repositories.common.AbstractRepository;
 
 @Repository
-public interface LibraryRepository<Library> extends AbstractRepository<Library> {
+public class LibraryRepository extends AbstractRepository<Library> {
+
+	public LibraryRepository() {
+		super(Library.class);
+	}
 
 }

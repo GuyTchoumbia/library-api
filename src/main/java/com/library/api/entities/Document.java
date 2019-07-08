@@ -12,8 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.library.api.entities.common.BaseEntity;
 
 @Entity
 @Table
@@ -27,7 +29,7 @@ public class Document extends BaseEntity {
 	private Date date;
 	
 	@ManyToOne
-	@JsonIgnoreProperties("documents")
+	@JsonManagedReference
 	private Support support;	
 	
 	@ManyToMany(fetch=FetchType.LAZY)
@@ -36,15 +38,16 @@ public class Document extends BaseEntity {
 	private List<Auteur> auteurs;
 	
 	@ManyToOne	
-	@JsonIgnoreProperties("documents")
+	@JsonManagedReference
 	private Editeur editeur;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable
 	@JsonIgnoreProperties("documents")
 	private List<Tag> tags;
 	
 	@OneToMany(mappedBy="document")
-	@JsonIgnoreProperties("document")
+	@JsonBackReference
 	private List<Cote> cotes;	
 	
 	public Document() {}

@@ -1,4 +1,4 @@
-package com.library.api.entities.user;
+package com.library.api.entities;
 
 import java.util.List;
 
@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.library.api.common.BaseEntity;
-import com.library.api.entities.UserCote;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.library.api.entities.common.BaseEntity;
+import com.library.api.entities.user.Civil;
+import com.library.api.entities.user.Coordinates;
+import com.library.api.entities.user.Credentials;
 
 @Entity
 @Table
@@ -23,6 +26,7 @@ public class User extends BaseEntity {
 	private Coordinates coordinates;	
 		
 	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
+	@JsonBackReference
 	private List<UserCote> userCote;
 	
 	public User() {}	

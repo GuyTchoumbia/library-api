@@ -1,9 +1,12 @@
-package com.library.api.common;
+package com.library.api.controller.common;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.library.api.repositories.common.AbstractRepository;
 
 public abstract class AbstractController<T> implements Controller<T> {	
 	
@@ -11,7 +14,7 @@ public abstract class AbstractController<T> implements Controller<T> {
 	
 	@Override
 	@GetMapping(path="/{id}", produces="application/json")
-    public Optional<T> find(Integer id) {
+    public T find(@PathVariable("id") Integer id) {
        return repository.findById(id);
 	}
 	
@@ -23,18 +26,18 @@ public abstract class AbstractController<T> implements Controller<T> {
 	
 	@Override
 	@GetMapping(path="{field}/all", produces="application/json")
-	public List<T> findAll(String field) {
+	public List<T> findAll(@PathVariable("field") String field) {
 		return null;
 	}
 	
 	@Override
 	@GetMapping(path="/{field}/{value}", produces="application/json")
-	public List<T> findBy(String field, String value) {
+	public List<T> findBy(@PathVariable("field") String field, @PathVariable("value") String value) {
 		return repository.findBy(field, value);		
 	}
 
 	@GetMapping(path="/{join}/{field}/{value}", produces="application/json")
-	public List<T> findByJoined(String join, String field, String value) {
+	public List<T> findByJoined(@PathVariable("join") String join, @PathVariable("field") String field, @PathVariable("value") String value) {
 		return repository.findWithin(join, field, value);
 	}
 		
@@ -52,20 +55,20 @@ public abstract class AbstractController<T> implements Controller<T> {
 	
 	@Override
 	@GetMapping(path="insert", produces="application/json")
-	public void create(T entity) {
-		repository.save(entity);
+	public void create(@RequestBody T entity) {
+		repository.insert(entity);
 	}	
 	
 	@Override
 	@GetMapping(path="delete/{id}", produces="application/json")
-    public void delete(Integer id) {
-		repository.deleteById(id);
+    public void delete(@PathVariable("id") Integer id) {
+		repository.delete(id);
 	}
 	
 	@Override
 	@GetMapping(path="update", produces="application/json")
-	public void update(T entity) {
-		repository.save(entity);		
+	public void update(@RequestBody T entity) {
+		repository.update(entity);		
 	}
 
 }

@@ -1,18 +1,17 @@
 package com.library.api.controller;
 
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.library.api.controller.common.AbstractController;
-import com.library.api.entities.Library;
-import com.library.api.repositories.LibraryRepository;
+import com.library.api.entities.Cote;
+import com.library.api.repositories.CoteRepository;
 
 @RestController
-@RequestMapping("/library")
-public class LibraryController extends AbstractController<Library> {
-
-	public LibraryController(LibraryRepository repository) {
+@RequestMapping("cote")
+public class CoteController extends AbstractController<Cote> {
+	
+	public CoteController(CoteRepository repository) {
 		this.repository = repository;
 	}	
 

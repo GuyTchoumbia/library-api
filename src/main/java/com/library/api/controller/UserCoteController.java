@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.library.api.common.AbstractController;
+import com.library.api.controller.common.AbstractController;
 import com.library.api.entities.UserCote;
 import com.library.api.repositories.UserCoteRepository;
 
 @RestController
-@RequestMapping
+@RequestMapping("/usercote")
 public class UserCoteController extends AbstractController<UserCote> {		
 
-	public UserCoteController(UserCoteRepository<UserCote> repository) {
+	public UserCoteController(UserCoteRepository repository) {
 		this.repository = repository;
 	}	
 

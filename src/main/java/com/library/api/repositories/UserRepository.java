@@ -2,14 +2,14 @@ package com.library.api.repositories;
 
 import org.springframework.stereotype.Repository;
 
-import com.library.api.entities.Document;
+import com.library.api.entities.User;
 import com.library.api.repositories.common.AbstractRepository;
 
 @Repository
-public class DocumentRepository extends AbstractRepository<Document> {
+public class UserRepository extends AbstractRepository<User> {
 
-	public DocumentRepository() {
-		super(Document.class);
+	public UserRepository() {
+		super(User.class);
 	}
 
 }
