@@ -18,7 +18,7 @@ public class Tag extends BaseEntity {
 	private String libelle;
 	
 	@ManyToMany(mappedBy="tags")
-	@JsonIgnoreProperties("tags")
+	@JsonIgnoreProperties({"tags","cotes"})
 	private List<Document> documents;
 	
 	public Tag() {}   	
@@ -36,11 +36,11 @@ public class Tag extends BaseEntity {
 		this.libelle = libelle;
 	}
 
-	public List<Document> getSupports() {
+	public List<Document> getDocuments() {
 		return documents;
 	}
 
-	public void setDocument(List<Document> documents) {
+	public void setDocuments(List<Document> documents) {
 		this.documents = documents;
 	}
 	
@@ -81,8 +81,6 @@ public class Tag extends BaseEntity {
 	public String toString() {
 		return "Genre [libelle=" + libelle + ", getId()=" + getId() + ", toString()=" + super.toString()
 				+ ", getClass()=" + getClass() + "]";
-	}
-	
-	
+	}	
    
 }

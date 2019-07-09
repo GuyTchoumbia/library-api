@@ -1,0 +1,11 @@
+ - Restrict Access to user table:
+ 
+A subscribed user can only access its own row
+A mod/admin can access every row.
+
+cf. @Filter from hibernate?
+
+ - Tons of entry points.
+ N.B you can access inward tables values in Spring with Repository interfaces
+ i.e : findAuteursDocuments(_)ByLibelle
+ 

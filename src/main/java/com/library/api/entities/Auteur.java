@@ -17,8 +17,8 @@ public class Auteur extends BaseEntity {
 	@NotNull
 	private String libelle;
 	
-	@ManyToMany(mappedBy="auteurs")
-	@JsonIgnoreProperties("auteurs")
+	@ManyToMany(mappedBy="auteurs")	
+	@JsonIgnoreProperties({"auteurs","cotes"})
 	private List<Document> documents;	
 	
 	public Auteur() {}	

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.api.entities.common.BaseEntity;
 import com.library.api.entities.user.Civil;
 import com.library.api.entities.user.Coordinates;
@@ -25,9 +25,9 @@ public class User extends BaseEntity {
 	@Embedded
 	private Coordinates coordinates;	
 		
-	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
-	@JsonBackReference
-	private List<UserCote> userCote;
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonIgnoreProperties("user")
+	private List<UserCote> userCotes;
 	
 	public User() {}	
 
@@ -62,20 +62,20 @@ public class User extends BaseEntity {
 		this.coordinates = coordinates;
 	}
 
-	public List<UserCote> getDocumentUsers() {
-		return userCote;
+	public List<UserCote> getUserCotes() {
+		return userCotes;
 	}
 
-	public void setDocumentUsers(List<UserCote> documentUsers) {
-		this.userCote = documentUsers;
+	public void setUserCotes(List<UserCote> userCotes) {
+		this.userCotes = userCotes;
 	}
 	
-	public void addDocumentUser(UserCote userDocument) {
-		this.userCote.add(userDocument);
+	public void addUserCote(UserCote userCote) {
+		this.userCotes.add(userCote);
 	}
 	
-	public void removeDocumentUser(UserCote userDocument) {
-		this.userCote.remove(userDocument);
+	public void removeUserCote(UserCote userCote) {
+		this.userCotes.remove(userCote);
 	}
 
 	@Override

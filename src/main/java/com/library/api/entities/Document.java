@@ -4,17 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.library.api.entities.common.BaseEntity;
 
 @Entity
@@ -29,26 +25,24 @@ public class Document extends BaseEntity {
 	private Date date;
 	
 	@ManyToOne
-	@JsonManagedReference
+	@JsonIgnoreProperties("documents")
 	private Support support;	
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable
+	@ManyToMany
 	@JsonIgnoreProperties("documents")
 	private List<Auteur> auteurs;
 	
-	@ManyToOne	
-	@JsonManagedReference
+	@ManyToOne
+	@JsonIgnoreProperties("documents")
 	private Editeur editeur;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable
-	@JsonIgnoreProperties("documents")
-	private List<Tag> tags;
-	
 	@OneToMany(mappedBy="document")
-	@JsonBackReference
-	private List<Cote> cotes;	
+	@JsonIgnoreProperties({"document","userCotes"})
+	private List<Cote> cotes;		
+	
+	@ManyToMany
+	@JsonIgnoreProperties("documents")
+	private List<Tag> tags;	
 	
 	public Document() {}
 
@@ -107,7 +101,7 @@ public class Document extends BaseEntity {
 		this.auteurs.add(auteur);
 	}
 	
-	public void remove(Auteur auteur) {
+	public void removeAuteur(Auteur auteur) {
 		this.auteurs.remove(auteur);
 	}
 	

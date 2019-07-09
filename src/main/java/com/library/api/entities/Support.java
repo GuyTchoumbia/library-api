@@ -7,7 +7,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.api.entities.common.BaseEntity;
 
 @Entity
@@ -18,7 +18,7 @@ public class Support extends BaseEntity {
 	private String libelle;
 	
 	@OneToMany(mappedBy="support")
-	@JsonBackReference
+	@JsonIgnoreProperties({"support","cotes"})
 	private List<Document> documents;	
 		
 	public Support() {}

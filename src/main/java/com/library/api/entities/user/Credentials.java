@@ -1,9 +1,12 @@
 package com.library.api.entities.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +18,7 @@ public class Credentials implements UserDetails {
 	private String username;
 	private String password;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Authority authority;
 	
 	public Credentials() {}
@@ -42,8 +45,9 @@ public class Credentials implements UserDetails {
 		this.password = password;
 	}
 	
+	@Transient
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	public List<Authority> getAuthorities() {
 		return null;
 	}
 	
@@ -101,22 +105,26 @@ public class Credentials implements UserDetails {
 	public String toString() {
 		return "Credentials [login=" + username + ", password=" + password + ", role=" + authority + "]";
 	}
-
+	
+	@Transient
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@Transient
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@Transient
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	@Transient
 	@Override
 	public boolean isEnabled() {
 		return true;

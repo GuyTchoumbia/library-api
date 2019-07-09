@@ -8,11 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.library.api.entities.common.BaseEntity;
-
 
 @Entity
 @Table
@@ -25,12 +22,12 @@ public class Cote extends BaseEntity {
 	private Document document;
 	
 	@ManyToOne
-	@JsonManagedReference
+	@JsonIgnoreProperties({"cotes","address"})
 	private Library library;
 	
-	@OneToMany(mappedBy = "cote", cascade=CascadeType.ALL)
-	@JsonBackReference
-	private List<UserCote> userCote;	
+	@OneToMany(mappedBy="cote", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonIgnoreProperties("cote")
+	private List<UserCote> userCotes;	
 	
 	public Cote() {		
 	}
@@ -68,20 +65,20 @@ public class Cote extends BaseEntity {
 		this.library = library;
 	}
 	
-	public List<UserCote> getUserCote() {
-		return this.userCote;
+	public List<UserCote> getUserCotes() {
+		return this.userCotes;
 	}
 	
-	public void setUserCote(List<UserCote> userCote) {
-		this.userCote = userCote;
+	public void setUserCotes(List<UserCote> userCotes) {
+		this.userCotes = userCotes;
 	}
 	
 	public void addUserCote(UserCote userCote) {
-		this.userCote.add(userCote);
+		this.userCotes.add(userCote);
 	}
 	
 	public void removeUserCote(UserCote userCote) {
-		this.userCote.remove(userCote);
+		this.userCotes.remove(userCote);
 	}
 
 	@Override

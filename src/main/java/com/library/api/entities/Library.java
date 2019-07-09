@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.api.entities.common.Adress;
 import com.library.api.entities.common.BaseEntity;
 
@@ -20,11 +20,11 @@ public class Library extends BaseEntity {
 	@NotNull
 	private String libelle;	
 	
-	@Embedded 
+	@Embedded	
 	private Adress adress;
 			
 	@OneToMany(mappedBy="library")
-	@JsonBackReference
+	@JsonIgnoreProperties({"library","userCotes"})
 	private List<Cote> cotes;
 
 	public Library() {}
@@ -50,19 +50,19 @@ public class Library extends BaseEntity {
 		this.adress = adress;
 	}		
 
-	public List<Cote> getDocuments() {
+	public List<Cote> getCotes() {
 		return cotes;
 	}
 
-	public void setDocuments(List<Cote> cotes) {
+	public void setCotes(List<Cote> cotes) {
 		this.cotes = cotes;
 	}
 	
-	public void addDocument(Cote cote) {
+	public void addCote(Cote cote) {
 		this.cotes.add(cote);
 	}
 	
-	public void removeDocument(Cote cote) {
+	public void removeCote(Cote cote) {
 		this.cotes.remove(cote);
 	}
 
