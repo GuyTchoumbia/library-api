@@ -1,6 +1,7 @@
 package com.library.api.repositories.common;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -9,9 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class AbstractRepository<T> implements Repository<T> {
+public class AbstractRepository<T> implements CustomRepository<T> {
 
-	protected Class<T> entityClass;
+	protected Class<T> entityClass;	
 	
 	@PersistenceContext	protected EntityManager em;
 	protected CriteriaBuilder cb;
@@ -19,15 +20,12 @@ public class AbstractRepository<T> implements Repository<T> {
 	@PostConstruct
 	protected void init() {
 	  cb = em.getCriteriaBuilder();
-	}
-			
-	public AbstractRepository(Class<T> entityClass) {
-		this.entityClass = entityClass;
 	}	
 	
+	@SuppressWarnings("unchecked")
 	@Override	
-    public T findById(Integer id) {
-       return em.find(entityClass, id);       
+    public Optional<T> findById(Integer id) {
+       return (Optional<T>) em.find(entityClass, id);       
 	}
 	
 	@Override

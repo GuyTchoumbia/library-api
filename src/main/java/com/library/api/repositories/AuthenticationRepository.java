@@ -10,4 +10,6 @@ public interface AuthenticationRepository extends JpaRepository<User, String> {
 		
 	User findByCredentialsUsername(String username);
 
+	User findByCredentialsUsernameAndCredentialsPassword(String username, String password);	
+	
 }

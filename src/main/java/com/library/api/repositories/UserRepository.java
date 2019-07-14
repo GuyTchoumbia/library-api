@@ -1,15 +1,15 @@
 package com.library.api.repositories;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.library.api.entities.User;
-import com.library.api.repositories.common.AbstractRepository;
 
 @Repository
-public class UserRepository extends AbstractRepository<User> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-	public UserRepository() {
-		super(User.class);
-	}
+	List<User> findByCivilNomLikeAndCivilPrenomLike(String nom, String prenom);	
 
 }

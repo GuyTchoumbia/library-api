@@ -12,14 +12,15 @@ public abstract class AbstractController<T> implements Controller<T> {
 	
 	protected AbstractRepository<T> repository;		
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	@GetMapping(path="/{id}", produces="application/json")
     public T find(@PathVariable("id") Integer id) {
-       return repository.findById(id);
+       return (T) repository.findById(id);
 	}
 	
 	@Override
-	@GetMapping(path="/all", produces="application/json")
+	//@GetMapping(path="/all", produces="application/json")
 	public List<T> findAll() {
         return repository.findAll();
     }

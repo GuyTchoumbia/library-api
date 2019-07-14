@@ -1,10 +1,11 @@
 package com.library.api.repositories.common;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface Repository<T> {	
+public interface CustomRepository<T> {	
 	
-	public T findById(Integer id);
+	public Optional<T> findById(Integer id);
 	public void insert(T entity);	
 	public void update(T entity);	
 	public void delete(Integer id);	

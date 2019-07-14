@@ -1,15 +1,18 @@
 package com.library.api.repositories;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.library.api.entities.Cote;
-import com.library.api.repositories.common.AbstractRepository;
 
 @Repository
-public class CoteRepository extends AbstractRepository<Cote> {
+public interface CoteRepository extends JpaRepository<Cote, Integer> {
+	
+	List<Cote> findByDocumentId(Integer id);
 
-	public CoteRepository() {
-		super(Cote.class);
-	}
-
+	Optional<Cote> findByLibelle(String libelle);	
+	
 }

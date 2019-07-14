@@ -1,6 +1,5 @@
 package com.library.api.entities.user;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Embeddable;
@@ -8,7 +7,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Embeddable

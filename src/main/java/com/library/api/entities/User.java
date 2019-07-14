@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.api.entities.common.BaseEntity;
 import com.library.api.entities.user.Civil;
-import com.library.api.entities.user.Coordinates;
+import com.library.api.entities.user.Contact;
 import com.library.api.entities.user.Credentials;
 
 @Entity
@@ -23,7 +23,7 @@ public class User extends BaseEntity {
 	@Embedded
 	private Credentials credentials;
 	@Embedded
-	private Coordinates coordinates;	
+	private Contact contact;	
 		
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
 	@JsonIgnoreProperties("user")
@@ -31,11 +31,11 @@ public class User extends BaseEntity {
 	
 	public User() {}	
 
-	public User(Civil civil, Credentials credentials, Coordinates coordinates) {
+	public User(Civil civil, Credentials credentials, Contact contact) {
 		super();
 		this.civil = civil;
 		this.credentials = credentials;
-		this.coordinates = coordinates;			
+		this.contact = contact;			
 	}	
 
 	public Civil getCivil() {
@@ -54,12 +54,12 @@ public class User extends BaseEntity {
 		this.credentials = credentials;
 	}
 
-	public Coordinates getCoordinates() {
-		return coordinates;
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setCoordinates(Coordinates coordinates) {
-		this.coordinates = coordinates;
+	public void setCoordinates(Contact contact) {
+		this.contact = contact;
 	}
 
 	public List<UserCote> getUserCotes() {
@@ -83,7 +83,7 @@ public class User extends BaseEntity {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((civil == null) ? 0 : civil.hashCode());
-		result = prime * result + ((coordinates == null) ? 0 : coordinates.hashCode());
+		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
 		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
 		return result;
 	}
@@ -102,10 +102,10 @@ public class User extends BaseEntity {
 				return false;
 		} else if (!civil.equals(other.civil))
 			return false;
-		if (coordinates == null) {
-			if (other.coordinates != null)
+		if (contact == null) {
+			if (other.contact != null)
 				return false;
-		} else if (!coordinates.equals(other.coordinates))
+		} else if (!contact.equals(other.contact))
 			return false;
 		if (credentials == null) {
 			if (other.credentials != null)
@@ -117,7 +117,7 @@ public class User extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "User [civil=" + civil + ", credentials=" + credentials + ", coordinates=" + coordinates + ", toString()=" + super.toString() + ", getClass()=" + getClass() + "]";
+		return "User [civil=" + civil + ", credentials=" + credentials + ", contact=" + contact + ", toString()=" + super.toString() + ", getClass()=" + getClass() + "]";
 	}	
    
 }

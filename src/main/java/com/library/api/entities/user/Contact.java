@@ -6,7 +6,7 @@ import javax.persistence.Embedded;
 import com.library.api.entities.common.Adress;
 
 @Embeddable
-public class Coordinates {
+public class Contact {
 
 	@Embedded
 	private Adress adress;
@@ -15,9 +15,9 @@ public class Coordinates {
 	
 	private String email;
 	
-	public Coordinates() {}
+	public Contact() {}
 
-	public Coordinates(Adress adress, String phone, String email) {
+	public Contact(Adress adress, String phone, String email) {
 		this.adress = adress;
 		this.phone = phone;
 		this.email = email;
@@ -65,7 +65,7 @@ public class Coordinates {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Coordinates other = (Coordinates) obj;
+		Contact other = (Contact) obj;
 		if (adress == null) {
 			if (other.adress != null)
 				return false;
@@ -86,7 +86,7 @@ public class Coordinates {
 
 	@Override
 	public String toString() {
-		return "Coordinates [adress=" + adress + ", phone=" + phone + ", email=" + email + "]";
+		return "Contact [adress=" + adress + ", phone=" + phone + ", email=" + email + "]";
 	}
 	
 	
