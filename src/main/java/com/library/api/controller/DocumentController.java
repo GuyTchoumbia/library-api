@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,16 @@ public class DocumentController {
 	@GetMapping("/all")
 	public List<Document> findAllDocuments() {
 		return repository.findAll();
+	}
+	
+	@PostMapping("/delete")
+	public void delete(@RequestBody Document document) {
+		repository.delete(document);
+	}	
+	
+	@PostMapping({"/update", "/insert"})
+	public void update(@RequestBody Document document) {
+	 repository.save(document);
 	}
 	
 	@GetMapping("/libelle/{value}")	
@@ -78,33 +89,31 @@ public class DocumentController {
 		return repository.findDocumentByTags_Id(id);
 	}	
 	
+	// Advanced Search
 	@GetMapping("/search")
 	public List<Document> criteriaSearch(
-			@RequestParam(name="document", required=false) String libelle,
-			@RequestParam(name="auteur", required=false) String auteurLibelle,
-			@RequestParam(name="editeur", required=false) String editeurLibelle,
-			@RequestParam(name="cote", required=false) String coteLibelle,
+			@RequestParam(name="document", defaultValue="") String libelle,
+			@RequestParam(name="auteur", defaultValue="") String auteurLibelle,
+			@RequestParam(name="editeur", defaultValue="") String editeurLibelle,
+			@RequestParam(name="isbn", defaultValue="") String isbnLibelle,
+			@RequestParam(name="cote", defaultValue="") String coteLibelle,
 			@RequestParam(name="support", required=false) Integer supportId,
-			@RequestParam(name="tag", required=false) String tagLibelle
+			@RequestParam(name="tag", defaultValue="") String tagLibelle,
+			@RequestParam(name="library", required=false) Integer libraryId
 			) {
-		return repository.findDocumentByLibelleAndAuteurs_LibelleAndEditeur_LibelleAndCotes_LibelleAndTags_LibelleAndSupportId(
-				libelle, auteurLibelle, editeurLibelle, coteLibelle, tagLibelle, supportId);
+		return repository.findDocumentByLibelleLikeAndAuteurs_LibelleLikeAndEditeur_LibelleLikeAndIsbnLikeAndCotes_LibelleLikeAndTags_LibelleAndSupportIdAndCotes_LibraryId(
+				libelle, auteurLibelle, editeurLibelle, isbnLibelle, coteLibelle, tagLibelle, supportId, libraryId);
 	}
-	
+	// used on Angular website searchbar
 	@GetMapping("/any/{value}") 
 	public List<Document> findByAny(@PathVariable("value") String libelle) {
-		return repository.findByLibelleOrAuteurs_LibelleOrEditeur_Libelle(libelle, libelle, libelle);
-	}
-	
-	@GetMapping("/delete/{id}")
-	public void delete(@PathVariable("id") Integer id) {
-		repository.deleteById(id);
+		return repository.findByLibelleLikeOrAuteurs_LibelleLikeOrEditeur_LibelleLike(libelle, libelle, libelle);
 	}	
 	
-	 @GetMapping({"/update", "/insert"})
-	 public void delete(@RequestBody Document document) {
-		 repository.save(document);
-	 }
-	
+	// autocomplete fields
+	@GetMapping("autocomplete/{libelle}")
+	public List<Document> findLibellesStartingWith(@PathVariable("libelle") String input) {
+		return repository.findTop5ByLibelleStartingWith(input);
+	}
 
 }

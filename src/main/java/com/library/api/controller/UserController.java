@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,14 +24,20 @@ public class UserController {
 		this.repository = userRepository;
 	}	
 	
-	@GetMapping("/delete/{id}")
-	public void delete(@PathVariable("id") Integer id) {
-		repository.deleteById(id);
+	@PostMapping("/delete")
+	public String delete(@RequestBody User user) {
+		try {
+			repository.delete(user);
+			return "Successfully deleted";
+		}
+		catch (IllegalArgumentException e) {
+			return "Entity could not be found";
+		}		
 	}	
 	
-	 @GetMapping({"/update", "/insert"})
-	 public void delete(@RequestBody User user) {
-		 repository.save(user);
+	 @PostMapping({"/update", "/insert"})
+	 public User update(@RequestBody User user) {
+		 return repository.save(user);
 	 }
 	 
 	 @GetMapping("/id/{id}")
@@ -39,8 +46,8 @@ public class UserController {
 	 }
 	 
 	 @GetMapping("/info")
-	 public List<User> findUserByInfo(@RequestParam(name="nom", required=false) String nom, @RequestParam(name="prenom",required=false) String prenom) {
-		 return repository.findByCivilNomLikeAndCivilPrenomLike(nom, prenom);
+	 public List<User> findUserByInfo(@RequestParam(name="id", required=false) Optional<Integer> id, @RequestParam(name="nom", defaultValue="null") Optional<String> nom) {
+		 return repository.findByIdEqualsOrCivilNomStartingWith(id, nom);
 	 }
 
 }

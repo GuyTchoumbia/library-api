@@ -1,7 +1,10 @@
 package com.library.api.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +22,19 @@ public class TagController {
 		this.repository = tagRepository;
 	}	
 	
-	@GetMapping("/delete/{id}")
-	public void delete(@PathVariable("id") Integer id) {
-		repository.deleteById(id);
+	@PostMapping("/delete/{id}")
+	public void delete(@RequestBody Tag tag) {
+		repository.delete(tag);
 	}	
 	
-	 @GetMapping({"/update", "/insert"})
-	 public void delete(@RequestBody Tag tag) {
-		 repository.save(tag);
-	 }
+	@PostMapping({"/update", "/insert"})
+	public void update(@RequestBody Tag tag) {
+		repository.save(tag);
+	}
+	
+	@GetMapping("/autocomplete/{libelle}")
+	public List<Tag> findLibellesStartingWith(@PathVariable("libelle") String input) {
+		return repository.findTop5ByLibelleStartingWith(input);
+	}
 
 }

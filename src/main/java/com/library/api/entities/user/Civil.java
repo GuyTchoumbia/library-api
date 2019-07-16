@@ -1,12 +1,12 @@
 package com.library.api.entities.user;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Civil {
-	
+		
 	private String prenom;
 	private String nom;		
 	private Date dateNaissance;

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.library.api.entities.User;
-import com.library.api.entities.user.Credentials;
 import com.library.api.repositories.AuthenticationRepository;
 
 @RestController
@@ -26,13 +25,13 @@ public class AuthenticationController {
     
     @PostMapping(path="/signUp", consumes="application/json")
     public void signUp(@RequestBody User user) {
-        user.getCredentials().setPassword(bCryptPasswordEncoder.encode(user.getCredentials().getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         repository.save(user);
     }	
     
     @PostMapping(path="/signIn", consumes="application/json")
-    public User signIn(@RequestBody Credentials creds) {
-    	return repository.findByCredentialsUsernameAndCredentialsPassword(creds.getUsername(), creds.getPassword());
+    public User signIn(@RequestBody User user) {
+    	return repository.findByIdAndPassword(user.getId(), user.getPassword());
     }    
 
 }

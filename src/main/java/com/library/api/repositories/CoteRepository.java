@@ -13,6 +13,8 @@ public interface CoteRepository extends JpaRepository<Cote, Integer> {
 	
 	List<Cote> findByDocumentId(Integer id);
 
-	Optional<Cote> findByLibelle(String libelle);	
+	Optional<Cote> findByLibelle(String libelle);
+
+	List<Cote> findTop5ByLibelleStartingWith(String input);	
 	
 }

@@ -3,6 +3,7 @@ package com.library.api.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -21,8 +22,8 @@ public class Document extends BaseEntity {
 	private String libelle;
 	@NotNull
 	private String isbn;
-	@NotNull
-	private Date date;
+	@Column(length = 4)	
+	private Integer date;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("documents")
@@ -46,7 +47,7 @@ public class Document extends BaseEntity {
 	
 	public Document() {}
 
-	public Document(String libelle, String isbn, Date date, List<Auteur> auteurs, Editeur editeur, List<Tag> tags, List<Cote> cotes) {
+	public Document(String libelle, String isbn, Integer date, List<Auteur> auteurs, Editeur editeur, List<Tag> tags, List<Cote> cotes) {
 		super();
 		this.libelle = libelle;
 		this.isbn = isbn;
@@ -73,11 +74,11 @@ public class Document extends BaseEntity {
 		this.isbn = isbn;
 	}
 
-	public Date getDate() {
+	public Integer getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Integer date) {
 		this.date = date;
 	}
 

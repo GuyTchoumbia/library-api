@@ -37,8 +37,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     .readValue(req.getInputStream(), User.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getCredentials().getUsername(),
-                            creds.getCredentials().getPassword(),
+                            creds.getId(),
+                            creds.getPassword(),
                             new ArrayList<>())
             );
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
         String token = Jwts.builder()
-                .setSubject(((User) auth.getPrincipal()).getCredentials().getUsername())
+                .setSubject(((User) auth.getPrincipal()).getId().toString())
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();

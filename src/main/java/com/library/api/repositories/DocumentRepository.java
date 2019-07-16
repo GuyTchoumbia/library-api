@@ -29,9 +29,12 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
 	List<Document> findDocumentByTags_Id(Integer id);
 	
-	List<Document> findDocumentByLibelleAndAuteurs_LibelleAndEditeur_LibelleAndCotes_LibelleAndTags_LibelleAndSupportId(
-			@Nullable String libelle, @Nullable String auteurLibelle, @Nullable String editeurLibelle, @Nullable String coteLibelle, @Nullable String tagLibelle, @Nullable Integer id);
+	List<Document> findDocumentByLibelleLikeAndAuteurs_LibelleLikeAndEditeur_LibelleLikeAndIsbnLikeAndCotes_LibelleLikeAndTags_LibelleAndSupportIdAndCotes_LibraryId(
+			@Nullable String libelle, @Nullable String auteurLibelle, @Nullable String editeurLibelle, @Nullable String isbnLibelle, @Nullable String coteLibelle, @Nullable String tagLibelle, @Nullable Integer supportId, @Nullable Integer libraryId);
 
-	List<Document> findByLibelleOrAuteurs_LibelleOrEditeur_Libelle(String libelle, String auteurLibelle, String editeurLibelle);	
+	List<Document> findByLibelleLikeOrAuteurs_LibelleLikeOrEditeur_LibelleLike(String libelle, String libelle2,
+			String libelle3);
+
+	List<Document> findTop5ByLibelleStartingWith(String input);	
 
 }

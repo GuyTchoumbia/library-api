@@ -1,27 +1,60 @@
 package com.library.api.entities;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Formula;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.entities.common.BaseEntity;
+import com.library.api.entities.user.Authority;
 import com.library.api.entities.user.Civil;
 import com.library.api.entities.user.Contact;
-import com.library.api.entities.user.Credentials;
 
 @Entity
-@Table
-public class User extends BaseEntity {	
+@Table(name="utilisateur")
+public class User implements UserDetails {		
+	private static final long serialVersionUID = -1415885479807615908L;
+
+	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "sequence-generator"
+	)
+	@SequenceGenerator(
+			name = "sequence-generator",
+			sequenceName = "utilisateurSequence",
+			initialValue = 240500,
+			allocationSize = 1
+	)
+	private Integer id;
+	
+	@Transient
+	private String username;
+	
+	// @Formula(value = "concat(replace(cast(date_naissance), '-', ''), substring(nom from 0 for 4))")
+	private String password;
+		
+	@Enumerated(EnumType.STRING)
+	private Authority authority;
 
 	@Embedded
 	private Civil civil;
-	@Embedded
-	private Credentials credentials;
+	
 	@Embedded
 	private Contact contact;	
 		
@@ -29,14 +62,43 @@ public class User extends BaseEntity {
 	@JsonIgnoreProperties("user")
 	private List<UserCote> userCotes;
 	
-	public User() {}	
+	public User() { }		
 
-	public User(Civil civil, Credentials credentials, Contact contact) {
-		super();
-		this.civil = civil;
-		this.credentials = credentials;
-		this.contact = contact;			
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+	
+	public String getUsername() {
+		return id.toString();
 	}	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Authority getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
+	}
 
 	public Civil getCivil() {
 		return civil;
@@ -45,22 +107,7 @@ public class User extends BaseEntity {
 	public void setCivil(Civil civil) {
 		this.civil = civil;
 	}
-
-	public Credentials getCredentials() {
-		return credentials;
-	}
-
-	public void setCredentials(Credentials credentials) {
-		this.credentials = credentials;
-	}
-
-	public Contact getContact() {
-		return contact;
-	}
-
-	public void setCoordinates(Contact contact) {
-		this.contact = contact;
-	}
+	
 
 	public List<UserCote> getUserCotes() {
 		return userCotes;
@@ -78,46 +125,39 @@ public class User extends BaseEntity {
 		this.userCotes.remove(userCote);
 	}
 
+	@Transient
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((civil == null) ? 0 : civil.hashCode());
-		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
-		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
-		return result;
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Transient
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (civil == null) {
-			if (other.civil != null)
-				return false;
-		} else if (!civil.equals(other.civil))
-			return false;
-		if (contact == null) {
-			if (other.contact != null)
-				return false;
-		} else if (!contact.equals(other.contact))
-			return false;
-		if (credentials == null) {
-			if (other.credentials != null)
-				return false;
-		} else if (!credentials.equals(other.credentials))
-			return false;
-		return true;
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
+	@Transient
 	@Override
-	public String toString() {
-		return "User [civil=" + civil + ", credentials=" + credentials + ", contact=" + contact + ", toString()=" + super.toString() + ", getClass()=" + getClass() + "]";
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Transient
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Transient
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}	
    
 }

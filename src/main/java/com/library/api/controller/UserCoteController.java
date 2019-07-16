@@ -18,8 +18,8 @@ public class UserCoteController {
 		this.repository = userCoteRepository;
 	}	
 
-	@PostMapping("/insert")
-	public void insert(@RequestBody UserCote userCote) {
+	@PostMapping({"/update", "/insert"})
+	public void update(@RequestBody UserCote userCote) {
 		repository.save(userCote);
  	}
 	

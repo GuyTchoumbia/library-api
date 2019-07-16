@@ -1,7 +1,10 @@
 package com.library.api.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +22,19 @@ public class AuteurController {
 		this.repository = auteurRepository;
 	}
 	
-	@GetMapping("/delete/{id}")
-	public void delete(@PathVariable("id") Integer id) {
-		repository.deleteById(id);
+	@PostMapping("/delete")
+	public void delete(@RequestBody Auteur auteur) {
+		repository.delete(auteur);
 	}	
 	
-	 @GetMapping({"/update", "/insert"})
-	 public void delete(@RequestBody Auteur auteur) {
-		 repository.save(auteur);
-	 }
+	@PostMapping({"/update", "/insert"})
+	public void update(@RequestBody Auteur auteur) {
+		repository.save(auteur);
+	}
+	 
+	@GetMapping("/autocomplete/{libelle}")
+	public List<Auteur> findLibellesStartingWith(@PathVariable("libelle") String input) {
+		return repository.findTop5ByLibelleStartingWith(input);	
+	}
 	
 }
