@@ -1,7 +1,6 @@
 package com.library.api.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.FilterChain;
@@ -37,9 +36,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     .readValue(req.getInputStream(), User.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getId(),
-                            creds.getPassword(),
-                            new ArrayList<>())
+                    	creds.getId(),
+                        creds.getPassword(),
+                        creds.getAuthorities()
+                    )
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
         String token = Jwts.builder()
-                .setSubject(((User) auth.getPrincipal()).getId().toString())
+        		.setSubject(((User) auth.getPrincipal()).getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();

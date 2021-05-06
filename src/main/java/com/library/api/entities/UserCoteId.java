@@ -39,6 +39,7 @@ public class UserCoteId implements Serializable {
 			return false;
 		return true;
 	}
+	
 	@Override
 	public String toString() {
 		return "UserDocumentId [user=" + user + ", cote=" + cote + "]";

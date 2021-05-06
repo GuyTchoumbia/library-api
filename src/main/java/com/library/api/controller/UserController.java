@@ -18,7 +18,7 @@ import com.library.api.repositories.UserRepository;
 @RequestMapping("/user")
 public class UserController {
 	
-	UserRepository repository;
+	private UserRepository repository;
 	
 	public UserController(UserRepository userRepository) {
 		this.repository = userRepository;
@@ -35,19 +35,18 @@ public class UserController {
 		}		
 	}	
 	
-	 @PostMapping({"/update", "/insert"})
-	 public User update(@RequestBody User user) {
-		 return repository.save(user);
-	 }
+	@PostMapping({"/update", "/insert"})
+	public User update(@RequestBody User user) {
+		return repository.save(user);
+	}
 	 
-	 @GetMapping("/id/{id}")
-	 public Optional<User> findUserById(@PathVariable("id") Integer id) {
-		 return repository.findById(id);
-	 }
+	@GetMapping("/id/{id}")
+	public Optional<User> findUserById(@PathVariable("id") Integer id) {
+		return repository.findById(id);
+	}
 	 
-	 @GetMapping("/info")
-	 public List<User> findUserByInfo(@RequestParam(name="id", required=false) Optional<Integer> id, @RequestParam(name="nom", defaultValue="null") Optional<String> nom) {
-		 return repository.findByIdEqualsOrCivilNomStartingWith(id, nom);
-	 }
-
+	@GetMapping("/info")
+	public List<User> findUserByInfo(@RequestParam(name="id", required=false) Optional<Integer> id, @RequestParam(name="nom", defaultValue="null") Optional<String> nom) {
+		return repository.findByIdEqualsOrCivilNomStartingWith(id, nom);
+	}	
 }

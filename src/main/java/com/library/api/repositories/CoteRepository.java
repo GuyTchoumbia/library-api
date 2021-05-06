@@ -15,6 +15,8 @@ public interface CoteRepository extends JpaRepository<Cote, Integer> {
 
 	Optional<Cote> findByLibelle(String libelle);
 
-	List<Cote> findTop5ByLibelleStartingWith(String input);	
+	List<Cote> findTop5ByLibelleStartingWith(String input);
+
+	List<Cote> findTop5ByLibelleIgnoreCaseStartingWith(String input);	
 	
 }

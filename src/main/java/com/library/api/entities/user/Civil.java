@@ -1,6 +1,6 @@
 package com.library.api.entities.user;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Embeddable;
 
@@ -9,11 +9,11 @@ public class Civil {
 		
 	private String prenom;
 	private String nom;		
-	private Date dateNaissance;
+	private LocalDate dateNaissance;
 	
 	public Civil() {}
 	
-	public Civil(String prenom, String nom, Date dateNaissance) {
+	public Civil(String prenom, String nom, LocalDate dateNaissance) {
 		super();
 		this.prenom = prenom;
 		this.nom = nom;
@@ -36,11 +36,11 @@ public class Civil {
 		this.nom = nom;
 	}
 	
-	public Date getDateNaissance() {
+	public LocalDate getDateNaissance() {
 		return dateNaissance;
 	}
 
-	public void setDateNaissance(Date dateNaissance) {
+	public void setDateNaissance(LocalDate dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 

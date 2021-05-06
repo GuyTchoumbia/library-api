@@ -11,8 +11,10 @@ import com.library.api.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {	
 
-	List<User> findByIdOrCivilNomStartingWith(Optional<Integer> id, Optional<String> nom);
+	List<User> findByidOrCivilNomStartingWith(Optional<Integer> id, Optional<String> nom);
 
-	List<User> findByIdEqualsOrCivilNomStartingWith(Optional<Integer> id, Optional<String> nom);		
+	List<User> findByIdEqualsOrCivilNomStartingWith(Optional<Integer> id, Optional<String> nom);
+
+	Optional<User> findByUsername(String username);		
 
 }

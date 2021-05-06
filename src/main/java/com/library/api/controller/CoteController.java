@@ -28,7 +28,7 @@ public class CoteController {
 		return repository.findById(id);
 	}
 	
-	@GetMapping("/libelle/{value}")
+	@GetMapping("/libelle/{libelle}")
 	public Optional<Cote> findByLibelle(@PathVariable("libelle") String value) {
 		return repository.findByLibelle(value);		
 	}
@@ -45,9 +45,8 @@ public class CoteController {
 	
 	@GetMapping("/autocomplete/{input}")
 	public List<Cote> findLibellesStartingWith(@PathVariable("input") String input) {
-		return repository.findTop5ByLibelleStartingWith(input);
+		return repository.findTop5ByLibelleIgnoreCaseStartingWith(input);
 	
-	}
-	
+	}	
 
 }

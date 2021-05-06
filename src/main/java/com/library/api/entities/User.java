@@ -1,6 +1,6 @@
 package com.library.api.entities;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,6 +20,7 @@ import org.hibernate.annotations.Formula;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.api.entities.user.Authority;
 import com.library.api.entities.user.Civil;
@@ -41,11 +42,11 @@ public class User implements UserDetails {
 			initialValue = 240500,
 			allocationSize = 1
 	)
-	private Integer id;
+	private Integer id;	
 	
-	@Transient
+	@Formula("cast(id as int4)")
 	private String username;
-	
+		
 	// @Formula(value = "concat(replace(cast(date_naissance), '-', ''), substring(nom from 0 for 4))")
 	private String password;
 		
@@ -61,7 +62,7 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
 	@JsonIgnoreProperties("user")
 	private List<UserCote> userCotes;
-	
+			
 	public User() { }		
 
 	public Integer getId() {
@@ -80,10 +81,11 @@ public class User implements UserDetails {
 		this.contact = contact;
 	}
 	
+	@Override
 	public String getUsername() {
-		return id.toString();
-	}	
-
+		return username;
+	}
+			
 	public String getPassword() {
 		return password;
 	}
@@ -126,13 +128,14 @@ public class User implements UserDetails {
 	}
 
 	@Transient
+	@JsonIgnore
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GrantedAuthority> getAuthorities() {
+		return Arrays.asList(this.authority);
 	}
 
 	@Transient
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
@@ -140,6 +143,7 @@ public class User implements UserDetails {
 	}
 
 	@Transient
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
@@ -147,6 +151,7 @@ public class User implements UserDetails {
 	}
 
 	@Transient
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
@@ -154,10 +159,77 @@ public class User implements UserDetails {
 	}
 
 	@Transient
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return false;
-	}	
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((authority == null) ? 0 : authority.hashCode());
+		result = prime * result + ((civil == null) ? 0 : civil.hashCode());
+		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((userCotes == null) ? 0 : userCotes.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (authority != other.authority)
+			return false;
+		if (civil == null) {
+			if (other.civil != null)
+				return false;
+		} else if (!civil.equals(other.civil))
+			return false;
+		if (contact == null) {
+			if (other.contact != null)
+				return false;
+		} else if (!contact.equals(other.contact))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (userCotes == null) {
+			if (other.userCotes != null)
+				return false;
+		} else if (!userCotes.equals(other.userCotes))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", authority=" + authority
+				+ ", civil=" + civil + ", contact=" + contact + ", userCotes=" + userCotes + "]";
+	}
+
+	
    
 }

@@ -1,6 +1,7 @@
 package com.library.api.controller;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.security.Principal;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,18 +15,13 @@ import com.library.api.repositories.AuthenticationRepository;
 public class AuthenticationController {
 	
 	private AuthenticationRepository repository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;    
     
-    public AuthenticationController(
-    		AuthenticationRepository authenticationRepository,
-            BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthenticationController(AuthenticationRepository authenticationRepository) {
         this.repository = authenticationRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
     
     @PostMapping(path="/signUp", consumes="application/json")
-    public void signUp(@RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public void signUp(@RequestBody User user) {        
         repository.save(user);
     }	
     
@@ -33,5 +29,10 @@ public class AuthenticationController {
     public User signIn(@RequestBody User user) {
     	return repository.findByIdAndPassword(user.getId(), user.getPassword());
     }    
+    
+    @RequestMapping("/user")
+    public Principal user(Principal user) {    	
+    	return user;
+    }
 
 }

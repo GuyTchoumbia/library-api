@@ -1,6 +1,5 @@
 package com.library.api.entities;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.api.entities.common.BaseEntity;
@@ -18,9 +16,8 @@ import com.library.api.entities.common.BaseEntity;
 @Table
 public class Document extends BaseEntity {
 
-	@NotNull
 	private String libelle;
-	@NotNull
+	@Column(length=13)
 	private String isbn;
 	@Column(length = 4)	
 	private Integer date;
@@ -38,7 +35,7 @@ public class Document extends BaseEntity {
 	private Editeur editeur;
 	
 	@OneToMany(mappedBy="document")
-	@JsonIgnoreProperties({"document","userCotes"})
+	@JsonIgnoreProperties("document")
 	private List<Cote> cotes;		
 	
 	@ManyToMany
