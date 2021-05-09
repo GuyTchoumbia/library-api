@@ -8,6 +8,10 @@ import com.library.api.entities.User;
 @Repository
 public interface AuthenticationRepository extends JpaRepository<User, Integer> {			
 
-	User findByIdAndPassword(Integer id, String password);	
+	User findByIdAndPassword(Integer id, String password);
+
+	User findByUsername(String username);
+
+
 	
 }

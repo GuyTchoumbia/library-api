@@ -1,36 +1,27 @@
 package com.library.api.entities;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Formula;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.library.api.entities.user.Authority;
 import com.library.api.entities.user.Civil;
 import com.library.api.entities.user.Contact;
 
 @Entity
 @Table(name="utilisateur")
-public class User implements UserDetails {		
-	private static final long serialVersionUID = -1415885479807615908L;
-
+public class User {		
+	
 	@Id
 	@GeneratedValue(
 			strategy = GenerationType.SEQUENCE,
@@ -44,15 +35,12 @@ public class User implements UserDetails {
 	)
 	private Integer id;	
 	
-	@Formula("cast(id as int4)")
+	@Formula("cast(id as TEXT)")
 	private String username;
 		
 	// @Formula(value = "concat(replace(cast(date_naissance), '-', ''), substring(nom from 0 for 4))")
 	private String password;
 		
-	@Enumerated(EnumType.STRING)
-	private Authority authority;
-
 	@Embedded
 	private Civil civil;
 	
@@ -62,8 +50,14 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
 	@JsonIgnoreProperties("user")
 	private List<UserCote> userCotes;
-			
-	public User() { }		
+
+//	TODO
+//	@Enumerated
+//	private Enum<Authority> authorities;
+	
+		
+	public User() {	}	
+		
 
 	public Integer getId() {
 		return id;
@@ -81,7 +75,6 @@ public class User implements UserDetails {
 		this.contact = contact;
 	}
 	
-	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -94,14 +87,7 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public Authority getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(Authority authority) {
-		this.authority = authority;
-	}
-
+	
 	public Civil getCivil() {
 		return civil;
 	}
@@ -126,51 +112,20 @@ public class User implements UserDetails {
 	public void removeUserCote(UserCote userCote) {
 		this.userCotes.remove(userCote);
 	}
-
-	@Transient
-	@JsonIgnore
-	@Override
-	public List<GrantedAuthority> getAuthorities() {
-		return Arrays.asList(this.authority);
-	}
-
-	@Transient
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Transient
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Transient
-	@JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Transient
-	@JsonIgnore
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
+//	public Enum<Authority> getAuthorities() {
+//		return authorities;
+//	}
+//	
+//	public void setAuthority(Enum<Authority> authorities) {
+//		this.authorities = authorities;
+//	}
+//	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((authority == null) ? 0 : authority.hashCode());
 		result = prime * result + ((civil == null) ? 0 : civil.hashCode());
 		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -188,9 +143,7 @@ public class User implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
-		if (authority != other.authority)
-			return false;
+		User other = (User) obj;		
 		if (civil == null) {
 			if (other.civil != null)
 				return false;
@@ -226,10 +179,7 @@ public class User implements UserDetails {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", authority=" + authority
-				+ ", civil=" + civil + ", contact=" + contact + ", userCotes=" + userCotes + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", civil=" + civil + ", contact=" + contact + ", userCotes=" + userCotes + "]";
 	}
-
-	
    
 }

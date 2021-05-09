@@ -9,27 +9,26 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter {	
-	
-        
-    @Override
+public class WebSecurity extends WebSecurityConfigurerAdapter {	      
+		
+	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http 
-        	// .httpBasic().and()        	      	
+    	http 
+        	.httpBasic().and() // basic authentification
+//        	.logout().logoutUrl("/auth/logout").logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)).and()  // basic log out configuration with logout url at "auth/logout", and disabling redirection (by default) by just responding with a succs code 
         	.cors().and()  // adds the cors filter
+//        	.cors().disable()
         	.csrf().csrfTokenRepository(this.csrfTokenRepository()).and()  // adds csrf filter (XSRF-TOKEN header)
-        	// .csrf().disable()
+//        	.csrf().disable()  // dev only
         	.authorizeRequests()
-        		.antMatchers("/*").permitAll();
-        		// .antMatchers("/index.html", "/library/*").permitAll()
-        		//.antMatchers("/auth/user", "/usercote/reserve", "usercote/delete").authenticated();
-//                .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-                 //.anyRequest().authenticated();
+//        		.antMatchers("/*").permitAll();   // dev only
+        		.antMatchers("/auth/*", "/usercote/**").authenticated();
+//                     
 //                .and()
-//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-//                .addFilter(new JwtAuthorizationFilter(authenticationManager()));
-    }
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))  // Jwt authentication filter
+//                .addFilter(new JwtAuthorizationFilter(authenticationManager()));  // Jwt authorization filter
         
+    }        
     
     public CsrfTokenRepository csrfTokenRepository() {
         CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();        
