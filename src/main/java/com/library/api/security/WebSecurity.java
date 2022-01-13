@@ -1,5 +1,7 @@
 package com.library.api.security;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +17,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http 
         	.httpBasic().and() // basic authentification
-//        	.logout().logoutUrl("/auth/logout").logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)).and()  // basic log out configuration with logout url at "auth/logout", and disabling redirection (by default) by just responding with a succs code 
+        	.logout().logoutUrl("/auth/logout").logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)).and()  // basic log out configuration with logout url at "auth/logout", and disabling redirection (by default) by just responding with a succs code 
         	.cors().and()  // adds the cors filter
 //        	.cors().disable()
         	.csrf().csrfTokenRepository(this.csrfTokenRepository()).and()  // adds csrf filter (XSRF-TOKEN header)

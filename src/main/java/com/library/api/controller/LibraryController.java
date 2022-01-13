@@ -26,10 +26,10 @@ public class LibraryController {
 		this.repository = libraryRepository;
 	}
 	
-	// gets only the id and libelle, used for select menus
+	// gets only the id and libelle, used for select menus. sorted by id because it doesn't do it by default
 	@GetMapping("/all")
 	public List<IdLibelle> findAllLibraries() {
-		return repository.findBy();
+		return repository.findByOrderByIdAsc();
 	}
 	
 	//gets all the relevant info of a single library for display on the site information page.

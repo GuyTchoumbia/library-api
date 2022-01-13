@@ -16,4 +16,6 @@ public interface LibraryRepository extends JpaRepository<Library, Integer> {
 
 	LibraryInfo getById(Integer id);
 
+	List<IdLibelle> findByOrderByIdAsc();
+
 }
